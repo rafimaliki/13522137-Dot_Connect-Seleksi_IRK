@@ -2,7 +2,7 @@ import {
   copyArray,
   countEmptyCells,
   getStartingCell,
-  getNextCellsBF,
+  getNextCellsG,
   isValidBoard,
 } from "./utils";
 
@@ -21,7 +21,7 @@ const recursiveSearch = (board, row, col, emptyCells, path) => {
   const boardCopy = copyArray(board);
   boardCopy[row][col] = 2;
 
-  const nextCells = getNextCellsBF(row, col, boardCopy);
+  const nextCells = getNextCellsG(row, col, boardCopy);
 
   if (emptyCells > 0 && nextCells.length === 0) {
     return null;
@@ -49,10 +49,10 @@ const recursiveSearch = (board, row, col, emptyCells, path) => {
   return null;
 };
 
-const bruteforce = (board) => {
+const greedy = (board) => {
   count = 0;
   prune = 0;
-  console.log("Solving with bruteforce");
+  console.log("Solving with greedy");
 
   const emptyCells = countEmptyCells(board);
   const startingCell = getStartingCell(board);
@@ -75,4 +75,4 @@ const bruteforce = (board) => {
   return resultPath;
 };
 
-export default bruteforce;
+export default greedy;

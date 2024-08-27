@@ -1,6 +1,7 @@
 const colors = [
   "#ebebeb", // Light Gray
   "#4a4a4a", // Dark Gray
+  "#ffe0b2", // Peach
   "#e1bee7", // Light Purple
   "#d0f4de", // Mint Green
   "#bbdefb", // Light Sky Blue
@@ -9,7 +10,6 @@ const colors = [
   "#f4e1d2", // Pastel Salmon
   "#ffecb3", // Light Cream
   "#fff9c4", // Light Yellow
-  "#ffe0b2", // Peach
   "#d1c4e9", // Light Lilac
   "#e0f2f1", // Pale Cyan
   "#b9fbc0", // Pale Green

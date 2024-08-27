@@ -1,6 +1,6 @@
 import BoardCell from "./BoardCell";
-import Adjacent from "../class/Adjacent";
-import BoardCellData from "../class/BoardCellData";
+import Adjacent from "../../class/Adjacent";
+import BoardCellData from "../../class/BoardCellData";
 
 const BoardRow = ({
   row,
@@ -10,6 +10,8 @@ const BoardRow = ({
   setDragging,
   prevIndex,
   setPrevIndex,
+  emptyCells,
+  setEmptyCells,
 }) => {
   return (
     <div className="flex">
@@ -23,6 +25,8 @@ const BoardRow = ({
           setDragging={setDragging}
           prevIndex={prevIndex}
           setPrevIndex={setPrevIndex}
+          emptyCells={emptyCells}
+          setEmptyCells={setEmptyCells}
         />
       ))}
     </div>

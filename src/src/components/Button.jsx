@@ -6,7 +6,7 @@ const Button = ({ color, onclick, title }) => {
   };
   return (
     <button
-      className={`mt-4 px-4 py-0 ${colorData[color]} text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 transition duration-200 ease-in-out`}
+      className={`my-2 px-3 py-0 w-[7rem] ${colorData[color]} text-white font-semibold rounded-lg shadow-md  transition duration-200 ease-in-out`}
       onClick={onclick}
     >
       {title}
