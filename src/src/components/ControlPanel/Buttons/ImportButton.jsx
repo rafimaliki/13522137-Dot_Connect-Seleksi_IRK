@@ -1,7 +1,22 @@
 import { React, useRef } from "react";
 import Button from "../../Button";
+import { size } from "lodash";
 
-const ImportButton = ({ setBoardData, isSolving }) => {
+// possible row, col
+const possibleSize = [
+  [5, 5],
+  [8, 6],
+  [10, 6],
+  [12, 8],
+];
+
+const ImportButton = ({
+  setBoardData,
+  isSolving,
+  setDifficulty,
+  setScore,
+  timerActive,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleFileImport = (event) => {
@@ -14,6 +29,7 @@ const ImportButton = ({ setBoardData, isSolving }) => {
         try {
           const data = JSON.parse(e.target.result);
           validateAndStoreData(data);
+          setScore(0);
         } catch (error) {
           alert("Invalid JSON format");
         }
@@ -39,7 +55,19 @@ const ImportButton = ({ setBoardData, isSolving }) => {
           row.every((num) => typeof num === "number" && num >= 0)
       )
     ) {
-      setBoardData(board);
+      const rows = board.length;
+      const cols = board[0].length;
+
+      const sizeIndex = possibleSize.findIndex(
+        ([r, c]) => r === rows && c === cols
+      );
+
+      if (sizeIndex !== -1) {
+        setBoardData(board);
+        setDifficulty(sizeIndex);
+      } else {
+        alert("Invalid board size.");
+      }
     } else {
       alert("Invalid board data.");
     }
@@ -57,7 +85,7 @@ const ImportButton = ({ setBoardData, isSolving }) => {
       <Button
         color="blue"
         onclick={() => {
-          if (!isSolving) {
+          if (!isSolving && timerActive !== 1) {
             fileInputRef.current.click();
           }
         }}

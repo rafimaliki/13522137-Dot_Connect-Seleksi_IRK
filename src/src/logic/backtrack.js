@@ -22,7 +22,7 @@ const recursiveSearch = (board, row, col, emptyCells, path) => {
   boardCopy[row][col] = 2;
 
   if (!isValidBoard(boardCopy, row, col)) {
-    console.log(`pruned ${++prune}x at`, count);
+    // console.log(`pruned ${++prune}x at`, count);
     return null;
   }
 
@@ -57,7 +57,7 @@ const recursiveSearch = (board, row, col, emptyCells, path) => {
 const backtrack = (board) => {
   count = 0;
   prune = 0;
-  console.log("Solving with backtracking heuristics");
+  console.log("Solving with backtracking");
 
   const emptyCells = countEmptyCells(board);
   const startingCell = getStartingCell(board);

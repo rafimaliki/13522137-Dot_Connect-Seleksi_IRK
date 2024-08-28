@@ -4,9 +4,17 @@ import difficultyData from "../../../data/difficulty";
 import CreateBoard from "../../../class/CreateBoard";
 import { isValidBoard } from "../../../logic/utils";
 
-const RandomizeButton = ({ setBoardData, difficulty, isSolving }) => {
+const RandomizeButton = ({
+  setBoardData,
+  difficulty,
+  isSolving,
+  setScore,
+  timerActive,
+}) => {
   const randomizeBoard = () => {
-    if (isSolving) return;
+    if (isSolving || timerActive === 1) return;
+    setScore(0);
+
     const newBoardData = new CreateBoard(
       difficultyData[difficulty].row,
       difficultyData[difficulty].col

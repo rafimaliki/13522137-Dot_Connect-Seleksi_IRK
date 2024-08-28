@@ -8,9 +8,11 @@ const DifficultyButton = ({
   difficulty,
   setDifficulty,
   isSolving,
+  setScore,
+  timerActive,
 }) => {
   const changeDifficulty = () => {
-    if (isSolving) return;
+    if (isSolving || timerActive === 1) return;
     let newDifficulty = (difficulty + 1) % difficultyData.length;
     const newBoard = new CreateBoard(
       difficultyData[newDifficulty].row,
@@ -19,6 +21,7 @@ const DifficultyButton = ({
 
     setDifficulty(newDifficulty);
     setBoardData(newBoard);
+    setScore(0);
   };
   return (
     <Button

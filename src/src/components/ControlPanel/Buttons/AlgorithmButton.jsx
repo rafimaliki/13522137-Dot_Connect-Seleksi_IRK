@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../Button";
 
-const algorithms = ["Backtrack", "Bruteforce", "Greedy", "A*"];
+const algorithms = ["A*", "Backtrack", "Greedy", "Bruteforce"];
 
 const AlgorithmButton = ({ algorithm, setAlgorithm, isSolving }) => {
   const changeAlgorithm = () => {

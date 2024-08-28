@@ -11,6 +11,7 @@ const BoardCell = ({
   setPrevIndex,
   emptyCells,
   setEmptyCells,
+  timerActive,
 }) => {
   const { type, color, row, col, adjacent, connections } = data;
   const isBlocked = type === "blocked";
@@ -21,6 +22,7 @@ const BoardCell = ({
 
   const handleMouseDown = (event) => {
     event.preventDefault();
+    if (timerActive !== 1) return;
     if (!isBlocked) {
       if (type === "start" || connections === 1) {
         setPrevIndex([row, col]);

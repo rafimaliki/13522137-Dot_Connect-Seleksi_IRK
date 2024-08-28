@@ -1,12 +1,13 @@
 import { useRef } from "react";
 import Button from "../../Button";
-import backtrack from "../../../logic/backtrack";
-import bruteforce from "../../../logic/bruteforce";
-import greedy from "../../../logic/greedy";
+
 import astar from "../../../logic/astar";
+import backtrack from "../../../logic/backtrack";
+import greedy from "../../../logic/greedy";
+import bruteforce from "../../../logic/bruteforce";
 // import aStarSearch from "../logic/astar";
 
-const algorithms = [backtrack, bruteforce, greedy, backtrack];
+const algorithms = [astar, backtrack, greedy, bruteforce];
 
 const SolveButton = ({
   boardData,
@@ -17,6 +18,7 @@ const SolveButton = ({
   isSolved,
   setIsSolved,
   algorithm,
+  setTimerActive,
 }) => {
   const boardRef = useRef(board);
 
@@ -27,6 +29,8 @@ const SolveButton = ({
 
   const solve = async () => {
     if (isSolved || isSolving) return;
+    setTimerActive(0);
+    setTimerActive(1);
 
     // Clearing the board
     const newBoard = board.clearConnections();
@@ -63,8 +67,10 @@ const SolveButton = ({
       }
     } else {
       console.log("No solution found");
+      alert("No solution found");
       setIsSolving(false);
     }
+    setTimerActive(2);
   };
 
   return <Button color="green" onclick={solve} title="Solve" />;

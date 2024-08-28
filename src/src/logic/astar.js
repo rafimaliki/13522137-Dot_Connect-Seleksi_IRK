@@ -2,105 +2,86 @@ import {
   copyArray,
   countEmptyCells,
   getStartingCell,
-  getNextCells,
+  getNextCellsBF,
   isValidBoard,
 } from "./utils";
 
-function astar(grid) {
-  const directions = [
-    [0, 1],
-    [1, 0],
-    [0, -1],
-    [-1, 0],
-  ];
+const heuristic = (path, state, score, rows, cols) => {
+  const [row, col] = path[path.length - 1];
 
-  let rows = grid.length;
-  let cols = grid[0].length;
-  let start = null;
+  const distanceToBorder = Math.min(row, col, rows - 1 - row, cols - 1 - col);
 
-  // Find the start position
+  const pathLength = path.length;
+
+  return distanceToBorder + pathLength + score * 3;
+  return score * 3;
+};
+
+const findStartPosition = (grid) => {
+  const rows = grid.length;
+  const cols = grid[0].length;
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       if (grid[i][j] === 2) {
-        start = [i, j];
-        break;
+        return [i, j];
       }
     }
   }
+  return null;
+};
 
-  function isValid(x, y, state) {
-    return (
-      x >= 0 &&
-      x < rows &&
-      y >= 0 &&
-      y < cols &&
-      state[x][y] !== 1 &&
-      state[x][y] !== 2
-    );
-  }
+const astar = (grid) => {
+  console.log("Solving with astar");
 
-  // Improved heuristic: sum of Manhattan distances to all unvisited empty cells
-  function heuristic(path, state) {
-    const [cx, cy] = path[path.length - 1];
-    let distanceSum = 0;
+  const rows = grid.length;
+  const cols = grid[0].length;
+  const start = findStartPosition(grid);
 
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        if (state[i][j] === 0) {
-          // Only consider unvisited empty cells
-          distanceSum += Math.abs(cx - i) + Math.abs(cy - j);
-        }
-      }
-    }
-
-    return distanceSum;
-  }
+  const emptyCells = countEmptyCells(grid) + 1;
 
   let queue = [];
 
-  // Initialize the starting board state
-  let initialState = grid.map((row) => row.slice());
+  const initialState = grid.map((row) => row.slice());
   initialState[start[0]][start[1]] = 2;
-  queue.push({ path: [start], state: initialState });
+  queue.push({ path: [start], state: initialState, score: 0 });
 
   let longestPath = [];
   let count = 0;
 
   while (queue.length > 0) {
-    console.log(count++);
+    count++;
+    // console.log(count, queue.length);
 
-    // Sort the queue based on the modified heuristic
     queue.sort(
-      (a, b) => heuristic(b.path, b.state) - heuristic(a.path, a.state)
+      (a, b) =>
+        heuristic(b.path, b.state, b.score, rows, cols) -
+        heuristic(a.path, a.state, a.score, rows, cols)
     );
-    let current = queue.pop();
-    let [cx, cy] = current.path[current.path.length - 1];
+    const current = queue.pop();
+    const [row, col] = current.path[current.path.length - 1];
 
-    if (!isValidBoard(current.state, cx, cy)) {
-      console.log("pruned");
-      continue;
+    if (current.path.length === emptyCells) {
+      console.log("loop:", count);
+      return current.path;
     }
 
-    if (current.path.length > longestPath.length) {
-      longestPath = current.path;
-    }
+    const directions = getNextCellsBF(row, col, current.state);
 
-    for (let [dx, dy] of directions) {
-      let nx = cx + dx;
-      let ny = cy + dy;
+    directions.forEach(([nextRow, nextCol], i) => {
+      const newState = copyArray(current.state);
+      newState[nextRow][nextCol] = 2;
 
-      // Copy the current state for the next step
-      let newState = current.state.map((row) => row.slice());
-
-      if (isValid(nx, ny, newState)) {
-        // Mark the new cell as visited
-        newState[nx][ny] = 2;
-        queue.push({ path: [...current.path, [nx, ny]], state: newState });
+      if (isValidBoard(newState, nextRow, nextCol)) {
+        queue.push({
+          path: [...current.path, [nextRow, nextCol]],
+          state: newState,
+          score: (current.score - i) * 3,
+        });
       }
-    }
+    });
   }
 
-  return longestPath;
-}
+  return longestPath.length === 0 ? null : longestPath;
+};
 
 export default astar;

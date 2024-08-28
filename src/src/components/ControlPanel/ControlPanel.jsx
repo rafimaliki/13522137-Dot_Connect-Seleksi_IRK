@@ -30,6 +30,9 @@ const ControlPanel = ({ props }) => {
     setMode,
     algorithm,
     setAlgorithm,
+    setTimerActive,
+    timerActive,
+    setScore,
   } = props;
   return (
     <div className="w-36 h-[24rem] bg-white  box-shadow-lg rounded-lg flex flex-col items-center justify-between">
@@ -37,24 +40,41 @@ const ControlPanel = ({ props }) => {
         Dot Connect
       </h1> */}
       <div className="flex flex-col items-center my-2">
-        <ModeButton mode={mode} setMode={setMode} isSolving={isSolving} />
-        {true ? (
-          <DifficultyButton
-            setBoardData={setBoardData}
-            difficulty={difficulty}
-            setDifficulty={setDifficulty}
-            isSolving={isSolving}
-          />
-        ) : null}
-        {true ? (
+        <ModeButton
+          mode={mode}
+          setMode={setMode}
+          isSolving={isSolving}
+          setTimerActive={setTimerActive}
+          timerActive={timerActive}
+          setScore={setScore}
+        />
+
+        <DifficultyButton
+          setBoardData={setBoardData}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          isSolving={isSolving}
+          timerActive={timerActive}
+          setScore={setScore}
+        />
+
+        {mode === 0 ? (
           <RandomizeButton
             setBoardData={setBoardData}
             difficulty={difficulty}
             isSolving={isSolving}
+            timerActive={timerActive}
+            setScore={setScore}
           />
         ) : null}
-        <ImportButton setBoardData={setBoardData} isSolving={isSolving} />
-        {true ? (
+        <ImportButton
+          setBoardData={setBoardData}
+          isSolving={isSolving}
+          setDifficulty={setDifficulty}
+          timerActive={timerActive}
+          setScore={setScore}
+        />
+        {mode === 1 ? (
           <AlgorithmButton
             algorithm={algorithm}
             setAlgorithm={setAlgorithm}
@@ -63,7 +83,7 @@ const ControlPanel = ({ props }) => {
         ) : null}
       </div>
       <div className="flex flex-col items-center my-2">
-        {true ? (
+        {mode === 1 ? (
           <SolveButton
             boardData={boardData}
             board={board}
@@ -74,6 +94,7 @@ const ControlPanel = ({ props }) => {
             setIsSolved={setIsSolved}
             setPrevIndex={setPrevIndex}
             algorithm={algorithm}
+            setTimerActive={setTimerActive}
           />
         ) : null}
       </div>
@@ -82,6 +103,7 @@ const ControlPanel = ({ props }) => {
           isSolving={isSolving}
           boardData={boardData}
           setBoardData={setBoardData}
+          setScore={setScore}
         />
         <LogoutButton />
       </div>

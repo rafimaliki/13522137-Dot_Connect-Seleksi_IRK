@@ -12,6 +12,7 @@ const BoardRow = ({
   setPrevIndex,
   emptyCells,
   setEmptyCells,
+  timerActive,
 }) => {
   return (
     <div className="flex">
@@ -27,6 +28,7 @@ const BoardRow = ({
           setPrevIndex={setPrevIndex}
           emptyCells={emptyCells}
           setEmptyCells={setEmptyCells}
+          timerActive={timerActive}
         />
       ))}
     </div>
